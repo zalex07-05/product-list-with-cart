@@ -24,7 +24,12 @@ Users are able to:
 - TAILWIND
 
 ## Video explanation
+
+### First video:
 [![Watch the video](https://img.youtube.com/vi/kqnaA69ZKl0/0.jpg)](https://www.youtube.com/watch?v=kqnaA69ZKl0)
+
+### Second video:
+[![Watch the video](https://img.youtube.com/vi/9rtUoAAbT2M/0.jpg)](https://www.youtube.com/watch?v=9rtUoAAbT2M)
 
 ## Getting Started
 
