@@ -1,10 +1,11 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
-import { swaggerSpec } from './config/swagger.js';
+import {swaggerSpec} from './config/swagger.js';
 import productRoutes from './routes/products.routes.js';
-import { syncDatabase } from './models/index.js';
+import {syncDatabase} from './models/index.js';
 
 const app = express();
 const PORT = 3000;
@@ -14,8 +15,8 @@ const PORT = 3000;
 // porque considera que vienen de un "origen cruzado" (cross-origin).
 // Aquí le decimos explícitamente cuáles orígenes y métodos permitimos.
 app.use(cors({
-  origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 
 // ── Morgan ────────────────────────────────────────────────────────
@@ -36,18 +37,18 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ── Health check ──────────────────────────────────────────────────
 app.get('/', (req, res) => {
-  res.json({
-    message: '🍰 Desserts API funcionando',
-    docs: 'http://localhost:3000/api-docs',
-  });
+    res.json({
+        message: '🍰 Desserts API funcionando',
+        docs: 'http://localhost:3000/api-docs',
+    });
 });
 
 // ── Iniciar ───────────────────────────────────────────────────────
 syncDatabase().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 Servidor en http://localhost:${PORT}`);
-    console.log(`📄 Swagger en http://localhost:${PORT}/api-docs`);
-  });
+    app.listen(PORT, () => {
+        console.log(`🚀 Servidor en http://localhost:${PORT}`);
+        console.log(`📄 Swagger en http://localhost:${PORT}/api-docs`);
+    });
 });
 
 export default app; // necesario para Supertest en los tests
