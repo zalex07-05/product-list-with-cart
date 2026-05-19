@@ -1,5 +1,8 @@
-/* eslint-env node */
 import {Sequelize} from 'sequelize';
+import dotenv from 'dotenv';
+
+// Cargar .env explícitamente desde la carpeta server
+dotenv.config({path: new URL('../.env', import.meta.url)});
 
 // Leer configuración desde variables de entorno con valores por defecto
 const {
@@ -7,18 +10,19 @@ const {
     PGDATABASE = 'desserts_db',
     PGUSER = 'postgres',
     PGPASSWORD = 'tu_password',
+    PGPORT = '5432',
     PGSSLMODE = 'disable',
 } = process.env;
 
 const sequelizeOptions = {
     host: PGHOST,
+    port: Number(PGPORT),
     dialect: 'postgres',
     logging: false,
 };
 
-// Habilitar SSL cuando PGSSLMODE='require' (útil para Neon u otras DBs remotas)
+// Habilitar SSL cuando PGSSLMODE='require'
 if (PGSSLMODE === 'require') {
-    // rejectUnauthorized: false permite conexiones a proveedores que usan certificados autofirmados
     sequelizeOptions.dialectOptions = {
         ssl: {
             require: true,
