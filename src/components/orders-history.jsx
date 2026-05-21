@@ -106,7 +106,7 @@ export const OrdersHistory = () => {
 
           {!loading && !error && orders.length === 0 && (
             <div className="text-center py-12 bg-Rose-50 rounded-xl border border-dashed border-Rose-200">
-              <img src="/public/assets/images/icon-carbon-neutral.svg" alt="no-orders" className="mx-auto mb-4 h-12 w-12 opacity-60" />
+              <img src="/assets/images/icon-carbon-neutral.svg" alt="no-orders" className="mx-auto mb-4 h-12 w-12 opacity-60" />
               <h3 className="font-bold text-Rose-900 text-lg mb-1">Aún no has realizado pedidos</h3>
               <p className="text-Rose-500 text-sm max-w-xs mx-auto">
                 Los pedidos que realices con el carrito y confirmes se guardarán y aparecerán aquí.

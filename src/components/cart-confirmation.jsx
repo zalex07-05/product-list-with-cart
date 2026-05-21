@@ -171,7 +171,7 @@ export const CartConfirmation = () => {
         {/* CASO: Pedido Exitoso */}
         {user && status === 'success' && placedOrder && (
           <div>
-            <img src="/public/assets/images/icon-order-confirmed.svg" alt="icon-order-confirmed" className="mb-4" />
+            <img src="/assets/images/icon-order-confirmed.svg" alt="icon-order-confirmed" className="mb-4" />
             <h2 className='text-[2.2rem] font-bold text-Rose-900 leading-tight mb-1'>¡Pedido Confirmado!</h2>
             <p className='text-Rose-500 mb-4 text-sm'>Tu pedido ha sido guardado exitosamente en tu base de datos de Pedidos.</p>
             

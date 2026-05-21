@@ -70,7 +70,7 @@ export const ProductCard = ({ image, name, category, price }) => {
           className='bg-Rose-50 border-2 border-Rose-300 w-40 rounded-full flex justify-center gap-2 p-3 absolute inset-x-0 mx-auto top-[190px] cursor-pointer hover:border-Red transition-colors'
         >
           <img
-            src='/public/assets/images/icon-add-to-cart.svg'
+            src='/assets/images/icon-add-to-cart.svg'
             alt='icon-add-to-cart'
           />
           <span>Add to Cart</span>

@@ -48,11 +48,13 @@ app.get('/', (req, res) => {
 });
 
 // â”€â”€ Iniciar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-syncDatabase().then(() => {
-    app.listen(PORT, () => {
-        console.log(`ðŸš€ Servidor en http://localhost:${PORT}`);
-        console.log(`ðŸ“„ Swagger en http://localhost:${PORT}/api-docs`);
+if (process.env.NODE_ENV !== 'test') {
+    syncDatabase().then(() => {
+        app.listen(PORT, () => {
+            console.log(`🚀 Servidor en http://localhost:${PORT}`);
+            console.log(`📄 Swagger en http://localhost:${PORT}/api-docs`);
+        });
     });
-});
+}
 
 export default app; // necesario para Supertest en los tests
