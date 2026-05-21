@@ -4,8 +4,6 @@ import cors from 'cors';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import {swaggerSpec} from './config/swagger.js';
-import productRoutes from './routes/products.routes.js';
-import authRoutes from './routes/auth.routes.js';
 import orderRoutes from './routes/orders.routes.js';
 import {syncDatabase} from './models/index.js';
 
@@ -31,8 +29,6 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 // â”€â”€ Rutas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-app.use('/api/products', productRoutes);
-app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
 
 // â”€â”€ Swagger â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€

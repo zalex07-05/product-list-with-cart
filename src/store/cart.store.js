@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import productsData from '../../data.json';
 
 export const useCartStore = create((set, get) => ({
   isClose: true,
@@ -10,28 +11,11 @@ export const useCartStore = create((set, get) => ({
 
   toggleOrders: () => set((state) => ({ isOrdersOpen: !state.isOrdersOpen })),
 
-  // Obtiene los productos desde el backend en lugar del JSON local
+  // En la rama de Ordenes, cargamos los productos estáticos para simular la compra
   fetchProducts: async () => {
     set({ loading: true, error: null });
     try {
-      const res = await fetch('http://localhost:3000/api/products');
-      if (!res.ok) throw new Error('Error al cargar productos');
-      const data = await res.json();
-
-      // Convertimos el formato de la BD al formato que espera el frontend
-      const formatted = data.map(p => ({
-        name: p.name,
-        category: p.category,
-        price: p.price,
-        image: {
-          thumbnail: p.image_thumbnail,
-          mobile: p.image_mobile,
-          tablet: p.image_tablet,
-          desktop: p.image_desktop,
-        },
-      }));
-
-      set({ products: formatted, loading: false });
+      set({ products: productsData, loading: false });
     } catch (err) {
       set({ error: err.message, loading: false });
     }
@@ -40,8 +24,8 @@ export const useCartStore = create((set, get) => ({
   toggleClose: () => set((state) => ({ isClose: !state.isClose })),
   resetCart: () => set(() => ({ cart: [] })),
   confirmOrder: async (deliveryAddress, deliveryNotes, paymentMethod) => {
-    const token = localStorage.getItem('token');
-    if (!token) throw new Error('Debes iniciar sesión para realizar un pedido');
+    // Usamos el token simulado
+    const token = "dummy-token-for-orders-simulation";
 
     const items = get().cart.map(item => ({
       name: item.name,

@@ -4,8 +4,6 @@ import { Cart } from './components/cart';
 import { CartConfirmation } from './components/cart-confirmation';
 import { useCartStore } from './store/cart.store';
 import { Header } from './components/header';
-import { LoginModal } from './components/login-modal';
-import { RegisterModal } from './components/register-modal';
 import { OrdersHistory } from './components/orders-history';
 
 function App() {
@@ -31,8 +29,6 @@ function App() {
       </section>
       
       <CartConfirmation />
-      <LoginModal />
-      <RegisterModal />
       <OrdersHistory />
     </main>
   );
