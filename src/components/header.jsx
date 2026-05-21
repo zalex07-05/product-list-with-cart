@@ -1,24 +1,16 @@
 import { useAuthStore } from '../store/auth.store';
-import { useCartStore } from '../store/cart.store';
 
 export const Header = () => {
   const { user, openLoginModal, openRegisterModal, logout } = useAuthStore();
-  const { toggleOrders } = useCartStore();
 
   return (
     <header className="flex justify-between items-center mb-[30px] border-b pb-4">
-      <h1 className="text-[2.5rem] font-bold text-Rose-900">Desserts</h1>
+      <h1 className="text-[2.5rem] font-bold text-Rose-900">Desserts - Portal de Usuarios</h1>
       
       <div className="flex gap-4 items-center">
         {user ? (
           <>
             <span className="font-semibold text-Rose-900 text-sm">Hola, {user.name}</span>
-            <button 
-              onClick={toggleOrders}
-              className="border border-Rose-500 text-Rose-950 hover:bg-Rose-100 px-4 py-2 rounded-full text-sm font-semibold transition-colors"
-            >
-              Mis Pedidos 🍕
-            </button>
             <button 
               onClick={logout}
               className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full text-sm font-semibold transition-colors"
