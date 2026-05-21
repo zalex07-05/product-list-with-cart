@@ -12,6 +12,7 @@ const {
     PGPASSWORD = 'tu_password',
     PGPORT = '5432',
     PGSSLMODE = 'disable',
+// eslint-disable-next-line no-undef
 } = process.env;
 
 const sequelizeOptions = {
