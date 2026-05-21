@@ -10,6 +10,14 @@ const options = {
         },
         servers: [{url: 'http://localhost:3000'}],
         components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                    description: 'Ingresa tu token JWT para autenticarte.',
+                },
+            },
             schemas: {
                 Product: {
                     type: 'object',
@@ -26,7 +34,11 @@ const options = {
                 },
             },
         },
-        tags: [{name: 'Products', description: 'CRUD de productos'}],
+        tags: [
+            {name: 'Products', description: 'CRUD de productos'},
+            {name: 'Auth', description: 'Autenticación de clientes'},
+            {name: 'Orders', description: 'Simulación de Pedidos'}
+        ],
     },
     apis: ['./routes/*.routes.js'],
 };
