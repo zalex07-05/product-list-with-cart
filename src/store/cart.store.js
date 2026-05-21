@@ -2,13 +2,10 @@ import { create } from 'zustand';
 
 export const useCartStore = create((set, get) => ({
   isClose: true,
-  isOrdersOpen: false,
   cart: [],
   products: [],
   loading: false,
   error: null,
-
-  toggleOrders: () => set((state) => ({ isOrdersOpen: !state.isOrdersOpen })),
 
   // Obtiene los productos desde el backend en lugar del JSON local
   fetchProducts: async () => {
@@ -39,34 +36,6 @@ export const useCartStore = create((set, get) => ({
 
   toggleClose: () => set((state) => ({ isClose: !state.isClose })),
   resetCart: () => set(() => ({ cart: [] })),
-  confirmOrder: async (deliveryAddress, deliveryNotes, paymentMethod) => {
-    const token = localStorage.getItem('token');
-    if (!token) throw new Error('Debes iniciar sesión para realizar un pedido');
-
-    const items = get().cart.map(item => ({
-      name: item.name,
-      quantity: item.quantity
-    }));
-
-    const res = await fetch('http://localhost:3000/api/orders', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        items,
-        delivery_address: deliveryAddress,
-        delivery_notes: deliveryNotes,
-        payment_method: paymentMethod
-      })
-    });
-
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Error al procesar el pedido');
-    
-    return data.order;
-  },
   addItemToCart: (newItem) => set((state) => ({
     cart: [...state.cart, newItem],
   })),
