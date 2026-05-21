@@ -21,7 +21,7 @@ const Product = sequelize.define('Product', {
   image_tablet:    { type: DataTypes.STRING },
   image_desktop:   { type: DataTypes.STRING },
 }, {
-  tableName: 'products',
+  tableName: process.env.NODE_ENV === 'test' ? 'products_test' : 'products',
   timestamps: true,
 });
 
