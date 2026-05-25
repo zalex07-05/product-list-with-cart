@@ -18,6 +18,13 @@ const User = sequelizeAuth.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  role: {
+    type: DataTypes.STRING,
+    defaultValue: 'customer',
+    validate: {
+      isIn: [['customer', 'admin']],
+    },
+  },
 }, {
   tableName: 'users',
   timestamps: true,

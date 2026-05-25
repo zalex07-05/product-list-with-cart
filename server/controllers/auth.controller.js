@@ -2,7 +2,7 @@
 import bcrypt from 'bcrypt';
 import { User } from '../models/index.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_key_for_desserts_api';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const register = async (req, res) => {
   try {
@@ -22,15 +22,18 @@ export const register = async (req, res) => {
       password: hashedPassword,
     });
 
+    const token = jwt.sign(
+      { id: newUser.id, email: newUser.email, role: newUser.role || 'customer' },
+      JWT_SECRET,
+      { expiresIn: '1d' },
+    );
+
     const userResponse = {
       id: newUser.id,
       name: newUser.name,
       email: newUser.email,
+      role: newUser.role || 'customer',
     };
-
-    const token = jwt.sign({ id: newUser.id, email: newUser.email }, JWT_SECRET, {
-      expiresIn: '1d',
-    });
 
     res.status(201).json({
       message: 'Usuario registrado exitosamente',
@@ -57,14 +60,17 @@ export const login = async (req, res) => {
       return res.status(401).json({ message: 'Credenciales inválidas' });
     }
 
-    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-      expiresIn: '1d',
-    });
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role || 'customer' },
+      JWT_SECRET,
+      { expiresIn: '1d' },
+    );
 
     const userResponse = {
       id: user.id,
       name: user.name,
       email: user.email,
+      role: user.role || 'customer',
     };
 
     res.status(200).json({

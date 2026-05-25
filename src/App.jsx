@@ -1,4 +1,5 @@
 ﻿import { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { CardsContainer } from './components/cards-container';
 import { Cart } from './components/cart';
 import { CartConfirmation } from './components/cart-confirmation';
@@ -6,11 +7,11 @@ import { useCartStore } from './store/cart.store';
 import { Header } from './components/header';
 import { LoginModal } from './components/login-modal';
 import { RegisterModal } from './components/register-modal';
+import { PaymentManagement } from './components/PaymentManagement';
 
-function App() {
+function HomePage() {
   const { fetchProducts, loading, error } = useCartStore();
 
-  // Al montar la app, cargamos los productos del servidor
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -22,17 +23,26 @@ function App() {
     <main className='flex justify-center'>
       <section className='my-6 w-full max-w-[1200px] px-4'>
         <Header />
-        
+
         <div className='desktop:flex desktop:gap-8 desktop:items-start'>
           <CardsContainer />
           <Cart />
         </div>
       </section>
-      
+
       <CartConfirmation />
       <LoginModal />
       <RegisterModal />
     </main>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/admin/pagos" element={<PaymentManagement />} />
+    </Routes>
   );
 }
 
