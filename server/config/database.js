@@ -10,9 +10,26 @@ const {
     PGPASSWORD = 'tu_password',
     PGPORT = '5432',
     PGSSLMODE = 'disable',
+<<<<<<< HEAD
+=======
+
+    AUTH_PGHOST = 'localhost',
+    AUTH_PGDATABASE = 'auth_db',
+    AUTH_PGUSER = 'postgres',
+    AUTH_PGPASSWORD = 'tu_password',
+    AUTH_PGPORT = '5432',
+    AUTH_PGSSLMODE = 'disable',
+
+    PEDIDOS_PGHOST = 'localhost',
+    PEDIDOS_PGDATABASE = 'pedidos_db',
+    PEDIDOS_PGUSER = 'postgres',
+    PEDIDOS_PGPASSWORD = 'tu_password',
+    PEDIDOS_PGPORT = '5432',
+    PEDIDOS_PGSSLMODE = 'disable',
+>>>>>>> Pedidos
 } = process.env;
 
-// --- MAIN DATABASE (Products) ---
+// --- PRODUCTS DATABASE ---
 const sequelizeOptions = {
     host: PGHOST,
     port: Number(PGPORT),
@@ -31,6 +48,7 @@ if (PGSSLMODE === 'require') {
 
 const sequelize = new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, sequelizeOptions);
 
+<<<<<<< HEAD
 // --- AUTHENTICATION DATABASE (Users) ---
 const AUTH_HOST = process.env.AUTH_PGHOST || process.env.PGAUTH_HOST || PGHOST;
 const AUTH_DATABASE = process.env.AUTH_PGDATABASE || process.env.PGAUTH_DATABASE || PGDATABASE;
@@ -39,6 +57,10 @@ const AUTH_PASSWORD = process.env.AUTH_PGPASSWORD || process.env.PGAUTH_PASSWORD
 const AUTH_PORT = process.env.AUTH_PGPORT || PGPORT;
 const AUTH_SSLMODE = process.env.AUTH_PGSSLMODE || PGSSLMODE;
 
+=======
+
+// --- AUTH DATABASE (Users) ---
+>>>>>>> Pedidos
 const authSequelizeOptions = {
     host: AUTH_HOST,
     port: Number(AUTH_PORT),
@@ -65,15 +87,27 @@ const ORDERS_PASSWORD = process.env.ORDERS_PGPASSWORD || process.env.PGORDERS_PA
 const ORDERS_PORT = process.env.ORDERS_PGPORT || process.env.PGORDERS_PORT || PGPORT;
 const ORDERS_SSLMODE = process.env.ORDERS_PGSSLMODE || process.env.PGORDERS_SSL || PGSSLMODE;
 
+<<<<<<< HEAD
 const ordersSequelizeOptions = {
     host: ORDERS_HOST,
     port: Number(ORDERS_PORT),
+=======
+// --- PEDIDOS DATABASE (Orders + Products target) ---
+const pedidosSequelizeOptions = {
+    host: PEDIDOS_PGHOST,
+    port: Number(PEDIDOS_PGPORT),
+>>>>>>> Pedidos
     dialect: 'postgres',
     logging: false,
 };
 
+<<<<<<< HEAD
 if (ORDERS_SSLMODE === 'require') {
     ordersSequelizeOptions.dialectOptions = {
+=======
+if (PEDIDOS_PGSSLMODE === 'require') {
+    pedidosSequelizeOptions.dialectOptions = {
+>>>>>>> Pedidos
         ssl: {
             require: true,
             rejectUnauthorized: false,
@@ -81,7 +115,14 @@ if (ORDERS_SSLMODE === 'require') {
     };
 }
 
+<<<<<<< HEAD
 const sequelizeOrders = new Sequelize(ORDERS_DATABASE, ORDERS_USER, ORDERS_PASSWORD, ordersSequelizeOptions);
 
 export { sequelizeAuth, sequelizeOrders };
+=======
+const sequelizePedidos = new Sequelize(PEDIDOS_PGDATABASE, PEDIDOS_PGUSER, PEDIDOS_PGPASSWORD, pedidosSequelizeOptions);
+
+
+export { sequelizeAuth, sequelizePedidos };
+>>>>>>> Pedidos
 export default sequelize;

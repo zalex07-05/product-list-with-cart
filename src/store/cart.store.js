@@ -5,12 +5,17 @@ export const useCartStore = create((set, get) => ({
   isOrdersOpen: false,
   cart: [],
   products: [],
+  submittinOrder: false,
+  orderResult: null,
   loading: false,
   error: null,
 
+<<<<<<< HEAD
   toggleOrders: () => set((state) => ({ isOrdersOpen: !state.isOrdersOpen })),
 
   // Obtiene los productos desde el backend en lugar del JSON local
+=======
+>>>>>>> Pedidos
   fetchProducts: async () => {
     set({ loading: true, error: null });
     try {
@@ -18,8 +23,8 @@ export const useCartStore = create((set, get) => ({
       if (!res.ok) throw new Error('Error al cargar productos');
       const data = await res.json();
 
-      // Convertimos el formato de la BD al formato que espera el frontend
       const formatted = data.map(p => ({
+        id: p.id,
         name: p.name,
         category: p.category,
         price: p.price,
@@ -38,6 +43,7 @@ export const useCartStore = create((set, get) => ({
   },
 
   toggleClose: () => set((state) => ({ isClose: !state.isClose })),
+<<<<<<< HEAD
   resetCart: () => set(() => ({ cart: [] })),
   confirmOrder: async (deliveryAddress, deliveryNotes, paymentMethod) => {
     const token = localStorage.getItem('token');
@@ -67,6 +73,9 @@ export const useCartStore = create((set, get) => ({
     
     return data.order;
   },
+=======
+  resetCart: () => set(() => ({ cart: [], orderResult: null })),
+>>>>>>> Pedidos
   addItemToCart: (newItem) => set((state) => ({
     cart: [...state.cart, newItem],
   })),
@@ -81,4 +90,6 @@ export const useCartStore = create((set, get) => ({
   totalCard: () => get().cart.reduce(
     (acc, item) => acc + item.quantity * item.price, 0
   ),
+  setSubmittingOrder: (val) => set({ submittinOrder: val }),
+  setOrderResult: (val) => set({ orderResult: val }),
 }));

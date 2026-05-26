@@ -1,26 +1,22 @@
-// import { useState } from 'react';
 import { useCartStore } from '../store/cart.store';
 
-export const ProductCard = ({ image, name, category, price }) => {
-  // const [quantity, setQuantity] = useState(0);
-
+export const ProductCard = ({ id, image, name, category, price }) => {
   const { addItemToCart, updateItemInCart, deleteItemfromCart, cart } =
     useCartStore();
 
-    let quantity = 0
-    const itemsInCart = cart.filter(item => item.name === name)
+  let quantity = 0;
+  const itemsInCart = cart.filter(item => item.name === name);
 
-    if(itemsInCart.length > 0){
-      quantity = itemsInCart[0].quantity
-      console.log(quantity)
-    }
+  if (itemsInCart.length > 0) {
+    quantity = itemsInCart[0].quantity;
+  }
 
   const addOne = () => {
     const newQuantity = quantity + 1;
-    // setQuantity(newQuantity);
 
     if (newQuantity > 1) {
       updateItemInCart({
+        id,
         image,
         name,
         price,
@@ -28,6 +24,7 @@ export const ProductCard = ({ image, name, category, price }) => {
       });
     } else {
       addItemToCart({
+        id,
         image,
         name,
         price,
@@ -38,12 +35,12 @@ export const ProductCard = ({ image, name, category, price }) => {
 
   const subtractOne = () => {
     const newQuantity = quantity - 1;
-    // setQuantity(newQuantity);
 
     if (newQuantity === 0) {
       deleteItemfromCart(name);
     } else {
       updateItemInCart({
+        id,
         image,
         name,
         price,
