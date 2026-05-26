@@ -14,11 +14,29 @@ const STATUS_LABELS = {
 };
 
 const STATUS_COLORS = {
-  pending: 'bg-yellow-100 text-yellow-800',
-  paid: 'bg-green-100 text-green-800',
-  cancelled: 'bg-gray-100 text-gray-800',
-  rejected: 'bg-red-100 text-red-800',
-  expired: 'bg-orange-100 text-orange-800',
+  pending: 'bg-yellow-100 text-yellow-800 border border-yellow-200',
+  paid: 'bg-green-100 text-green-800 border border-green-200',
+  cancelled: 'bg-gray-100 text-gray-800 border border-gray-200',
+  rejected: 'bg-red-100 text-red-800 border border-red-200',
+  expired: 'bg-orange-100 text-orange-800 border border-orange-200',
+};
+
+const ORDER_STATUS_OPTIONS = ['pending', 'preparing', 'out_for_delivery', 'delivered', 'cancelled'];
+
+const ORDER_STATUS_LABELS = {
+  pending: 'Pendiente',
+  preparing: 'Preparando',
+  out_for_delivery: 'En camino',
+  delivered: 'Entregado',
+  cancelled: 'Cancelado',
+};
+
+const ORDER_STATUS_COLORS = {
+  pending: 'bg-amber-100 text-amber-800 border border-amber-200',
+  preparing: 'bg-blue-100 text-blue-800 border border-blue-200',
+  out_for_delivery: 'bg-purple-100 text-purple-800 border border-purple-200',
+  delivered: 'bg-green-100 text-green-800 border border-green-200',
+  cancelled: 'bg-red-100 text-red-800 border border-red-200',
 };
 
 export const PaymentManagement = () => {
@@ -57,8 +75,23 @@ export const PaymentManagement = () => {
     setFeedback(null);
     try {
       const updated = await adminService.updatePaymentStatus(orderId, newStatus);
-      setOrders(prev => prev.map(o => (o.id === orderId ? updated : o)));
-      setFeedback({ type: 'success', message: `Estado actualizado a "${STATUS_LABELS[newStatus]}"` });
+      setOrders(prev => prev.map(o => (o.id === orderId ? { ...o, payment_status: updated.payment_status, order_status: updated.order_status } : o)));
+      setFeedback({ type: 'success', message: `Estado de pago actualizado a "${STATUS_LABELS[newStatus]}"` });
+    } catch (err) {
+      setFeedback({ type: 'error', message: err.message });
+    } finally {
+      setUpdatingId(null);
+      setTimeout(() => setFeedback(null), 4000);
+    }
+  };
+
+  const handleOrderStatusChange = async (orderId, newStatus) => {
+    setUpdatingId(orderId);
+    setFeedback(null);
+    try {
+      const updated = await adminService.updateOrderStatus(orderId, newStatus);
+      setOrders(prev => prev.map(o => (o.id === orderId ? { ...o, order_status: updated.order_status } : o)));
+      setFeedback({ type: 'success', message: `Estado de entrega actualizado a "${ORDER_STATUS_LABELS[newStatus]}"` });
     } catch (err) {
       setFeedback({ type: 'error', message: err.message });
     } finally {
@@ -98,7 +131,7 @@ export const PaymentManagement = () => {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">Gestión de Pagos</h1>
+            <h1 className="text-2xl font-bold text-gray-800">Gestión de Pedidos y Pagos</h1>
             <p className="text-sm text-gray-500">Panel de administración</p>
           </div>
           <div className="flex items-center gap-4">
@@ -143,8 +176,9 @@ export const PaymentManagement = () => {
                     <th className="px-4 py-3 font-semibold">Total</th>
                     <th className="px-4 py-3 font-semibold">Método de Pago</th>
                     <th className="px-4 py-3 font-semibold">Estado Pago</th>
+                    <th className="px-4 py-3 font-semibold">Estado Pedido</th>
                     <th className="px-4 py-3 font-semibold">Fecha</th>
-                    <th className="px-4 py-3 font-semibold">Acción</th>
+                    <th className="px-4 py-3 font-semibold">Gestión</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -164,20 +198,43 @@ export const PaymentManagement = () => {
                           {STATUS_LABELS[order.payment_status] || order.payment_status}
                         </span>
                       </td>
+                      <td className="px-4 py-3">
+                        <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold ${ORDER_STATUS_COLORS[order.order_status] || 'bg-gray-100 text-gray-800'}`}>
+                          {ORDER_STATUS_LABELS[order.order_status] || order.order_status}
+                        </span>
+                      </td>
                       <td className="px-4 py-3 text-sm text-gray-500">{formatDate(order.created_at)}</td>
                       <td className="px-4 py-3">
-                        <select
-                          value={order.payment_status}
-                          onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                          disabled={updatingId === order.id}
-                          className="border border-gray-300 rounded-lg px-2 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 disabled:opacity-50 disabled:cursor-wait"
-                        >
-                          {STATUS_OPTIONS.map(s => (
-                            <option key={s} value={s}>{STATUS_LABELS[s]}</option>
-                          ))}
-                        </select>
+                        <div className="flex flex-col gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-gray-500 w-16">Pago:</span>
+                            <select
+                              value={order.payment_status}
+                              onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                              disabled={updatingId === order.id}
+                              className="border border-gray-300 rounded-lg px-2 py-1 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 disabled:opacity-50"
+                            >
+                              {STATUS_OPTIONS.map(s => (
+                                <option key={s} value={s}>{STATUS_LABELS[s]}</option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-gray-500 w-16">Pedido:</span>
+                            <select
+                              value={order.order_status}
+                              onChange={(e) => handleOrderStatusChange(order.id, e.target.value)}
+                              disabled={updatingId === order.id}
+                              className="border border-gray-300 rounded-lg px-2 py-1 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 disabled:opacity-50"
+                            >
+                              {ORDER_STATUS_OPTIONS.map(s => (
+                                <option key={s} value={s}>{ORDER_STATUS_LABELS[s]}</option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
                         {updatingId === order.id && (
-                          <span className="ml-2 text-xs text-gray-400">Actualizando...</span>
+                          <span className="text-xs text-gray-400 block mt-1">Actualizando...</span>
                         )}
                       </td>
                     </tr>

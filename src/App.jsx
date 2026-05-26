@@ -9,6 +9,7 @@ import { LoginModal } from './components/login-modal';
 import { RegisterModal } from './components/register-modal';
 import { OrdersHistory } from './components/orders-history';
 import { PaymentManagement } from './components/PaymentManagement';
+import { ProductManagement } from './components/ProductManagement';
 
 function HomePage() {
   const { fetchProducts, loading, error } = useCartStore();
@@ -44,6 +45,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/admin/pagos" element={<PaymentManagement />} />
+      <Route path="/admin/productos" element={<ProductManagement />} />
     </Routes>
   );
 }

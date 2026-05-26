@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { validationResult } from 'express-validator';
 import { authenticate, requireAdmin } from '../middleware/auth.middleware.js';
-import { getAllOrders, updatePaymentStatus } from '../controllers/admin.controller.js';
+import { getAllOrders, updatePaymentStatus, updateOrderStatus } from '../controllers/admin.controller.js';
 import { paymentStatusValidation } from '../validators/order.validator.js';
 
 const router = Router();
@@ -128,6 +128,11 @@ router.patch(
   paymentStatusValidation,
   handleValidationErrors,
   updatePaymentStatus,
+);
+
+router.patch(
+  '/orders/:orderId/order-status',
+  updateOrderStatus,
 );
 
 export default router;

@@ -25,4 +25,15 @@ export const adminService = {
     if (!res.ok) throw new Error(data.message || data.errors?.[0]?.msg || 'Error al actualizar');
     return data;
   },
+
+  async updateOrderStatus(orderId, orderStatus) {
+    const res = await fetch(`${API_URL}/orders/${orderId}/order-status`, {
+      method: 'PATCH',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ order_status: orderStatus }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || data.errors?.[0]?.msg || 'Error al actualizar estado del pedido');
+    return data;
+  },
 };

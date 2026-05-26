@@ -178,15 +178,28 @@ export const CartConfirmation = () => {
             <div className="bg-Rose-50 p-4 rounded-lg mb-6 border border-Rose-100">
               <div className="flex justify-between items-center pb-2 mb-3 border-b border-Rose-200 text-sm">
                 <span className="font-bold text-Rose-900">ID del Pedido: #{placedOrder.id}</span>
-                <span className="capitalize px-2 py-0.5 rounded bg-green-100 text-green-800 text-xs font-semibold">
-                  {placedOrder.order_status}
-                </span>
+                <div className="flex gap-2">
+                  <span className="capitalize px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-xs font-semibold">
+                    {placedOrder.order_status === 'pending' ? 'Pendiente' : placedOrder.order_status}
+                  </span>
+                  <span className={`px-2 py-0.5 rounded text-xs font-semibold ${
+                    placedOrder.payment_status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'
+                  }`}>
+                    {placedOrder.payment_status === 'paid' ? 'Pagado ✅' : 'Pago Pendiente 💳'}
+                  </span>
+                </div>
               </div>
               <div className='max-h-40 overflow-y-auto mb-2 pr-1'>
                 {cart.map(item => <CartConfirmItem key={item.name} {...item} />)}
               </div>
               <CartTotal />
             </div>
+
+            {placedOrder.payment_status === 'pending' && (
+              <div className='text-xs text-amber-800 bg-amber-50 border border-amber-200 p-3 rounded-lg mb-6'>
+                ℹ️ <strong>Pago pendiente:</strong> Has seleccionado pago en efectivo. Tu pedido comenzará a prepararse, pero el pago deberá registrarse en el sistema al recibirlo.
+              </div>
+            )}
 
             <div className="bg-Rose-100 p-3 rounded-lg text-xs text-Rose-700 mb-6">
               <span className="font-bold block mb-1">📍 Dirección de entrega simulada:</span>

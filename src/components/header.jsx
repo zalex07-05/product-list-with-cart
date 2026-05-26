@@ -15,12 +15,20 @@ export const Header = () => {
           <>
             <span className="font-semibold text-Rose-900 text-sm">Hola, {user.name}</span>
             {user.role === 'admin' ? (
-              <Link
-                to="/admin/pagos"
-                className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-full font-semibold text-sm transition-colors"
-              >
-                Admin Pagos
-              </Link>
+              <div className="flex gap-2">
+                <Link
+                  to="/admin/pagos"
+                  className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-full font-semibold text-sm transition-colors"
+                >
+                  Admin Pedidos
+                </Link>
+                <Link
+                  to="/admin/productos"
+                  className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-full font-semibold text-sm transition-colors"
+                >
+                  Admin Productos
+                </Link>
+              </div>
             ) : (
               <button 
                 onClick={toggleOrders}

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { validationResult } from 'express-validator';
+import { authenticate, requireAdmin } from '../middleware/auth.middleware.js';
 import {
   getAllProducts,
   getProductById,
@@ -70,7 +71,7 @@ router.get('/:id', getProductById);
  *       400:
  *         description: Error de validación
  */
-router.post('/', productValidationRules, handleValidationErrors, createProduct);
+router.post('/', authenticate, requireAdmin, productValidationRules, handleValidationErrors, createProduct);
 
 /**
  * @swagger
@@ -90,7 +91,7 @@ router.post('/', productValidationRules, handleValidationErrors, createProduct);
  *       404:
  *         description: Producto no encontrado
  */
-router.put('/:id', productValidationRules, handleValidationErrors, updateProduct);
+router.put('/:id', authenticate, requireAdmin, productValidationRules, handleValidationErrors, updateProduct);
 
 /**
  * @swagger
@@ -108,6 +109,6 @@ router.put('/:id', productValidationRules, handleValidationErrors, updateProduct
  *       200:
  *         description: Producto eliminado
  */
-router.delete('/:id', deleteProduct);
+router.delete('/:id', authenticate, requireAdmin, deleteProduct);
 
 export default router;
