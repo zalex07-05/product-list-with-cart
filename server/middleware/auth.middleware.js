@@ -1,10 +1,9 @@
 import jwt from 'jsonwebtoken';
-<<<<<<< HEAD
+import { User } from '../models/index.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_key_for_desserts_api';
 
 // Middleware para verificar la validez del token JWT
-// e inyectar el usuario autenticado en la petición (req.user)
 export const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -27,27 +26,12 @@ export const authenticateJWT = (req, res, next) => {
     req.user = user; // Inyecta { id, email } en req
     next();
   });
-=======
-import { User } from '../models/index.js';
-
-const JWT_SECRET = process.env.JWT_SECRET;
-
-export const authenticate = (req, res, next) => {
-  const header = req.headers.authorization;
-  if (!header || !header.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Token de acceso requerido' });
-  }
-
-  const token = header.split(' ')[1];
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch {
-    return res.status(401).json({ message: 'Token inválido o expirado' });
-  }
 };
 
+// Alias de autenticación para compatibilidad
+export const authenticate = authenticateJWT;
+
+// Middleware para verificar que el usuario tenga rol de administrador
 export const requireAdmin = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id);
@@ -60,5 +44,4 @@ export const requireAdmin = async (req, res, next) => {
     console.error('Error en requireAdmin:', err);
     return res.status(500).json({ message: 'Error al verificar permisos' });
   }
->>>>>>> Pedidos
 };

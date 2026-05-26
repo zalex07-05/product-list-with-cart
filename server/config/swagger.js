@@ -15,10 +15,7 @@ const options = {
                     type: 'http',
                     scheme: 'bearer',
                     bearerFormat: 'JWT',
-<<<<<<< HEAD
                     description: 'Ingresa tu token JWT para autenticarte.',
-=======
->>>>>>> Pedidos
                 },
             },
             schemas: {
@@ -65,12 +62,8 @@ const options = {
         tags: [
             {name: 'Products', description: 'CRUD de productos'},
             {name: 'Auth', description: 'Autenticación de clientes'},
-<<<<<<< HEAD
-            {name: 'Orders', description: 'Simulación de Pedidos'}
-=======
             {name: 'Orders', description: 'Pedidos de clientes autenticados'},
             {name: 'Admin', description: 'Gestión administrativa (solo admin)'},
->>>>>>> Pedidos
         ],
     },
     apis: ['./routes/*.routes.js'],

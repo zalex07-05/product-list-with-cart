@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import { useEffect } from 'react';
-=======
-﻿import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
->>>>>>> Pedidos
 import { CardsContainer } from './components/cards-container';
 import { Cart } from './components/cart';
 import { CartConfirmation } from './components/cart-confirmation';
@@ -11,11 +7,8 @@ import { useCartStore } from './store/cart.store';
 import { Header } from './components/header';
 import { LoginModal } from './components/login-modal';
 import { RegisterModal } from './components/register-modal';
-<<<<<<< HEAD
 import { OrdersHistory } from './components/orders-history';
-=======
 import { PaymentManagement } from './components/PaymentManagement';
->>>>>>> Pedidos
 
 function HomePage() {
   const { fetchProducts, loading, error } = useCartStore();
@@ -56,4 +49,3 @@ function App() {
 }
 
 export default App;
-

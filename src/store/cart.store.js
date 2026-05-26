@@ -10,12 +10,9 @@ export const useCartStore = create((set, get) => ({
   loading: false,
   error: null,
 
-<<<<<<< HEAD
   toggleOrders: () => set((state) => ({ isOrdersOpen: !state.isOrdersOpen })),
 
-  // Obtiene los productos desde el backend en lugar del JSON local
-=======
->>>>>>> Pedidos
+  // Obtiene los productos desde el backend
   fetchProducts: async () => {
     set({ loading: true, error: null });
     try {
@@ -43,8 +40,8 @@ export const useCartStore = create((set, get) => ({
   },
 
   toggleClose: () => set((state) => ({ isClose: !state.isClose })),
-<<<<<<< HEAD
-  resetCart: () => set(() => ({ cart: [] })),
+  resetCart: () => set(() => ({ cart: [], orderResult: null })),
+
   confirmOrder: async (deliveryAddress, deliveryNotes, paymentMethod) => {
     const token = localStorage.getItem('token');
     if (!token) throw new Error('Debes iniciar sesión para realizar un pedido');
@@ -73,9 +70,7 @@ export const useCartStore = create((set, get) => ({
     
     return data.order;
   },
-=======
-  resetCart: () => set(() => ({ cart: [], orderResult: null })),
->>>>>>> Pedidos
+
   addItemToCart: (newItem) => set((state) => ({
     cart: [...state.cart, newItem],
   })),

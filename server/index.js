@@ -6,12 +6,8 @@ import swaggerUi from 'swagger-ui-express';
 import {swaggerSpec} from './config/swagger.js';
 import productRoutes from './routes/products.routes.js';
 import authRoutes from './routes/auth.routes.js';
-<<<<<<< HEAD
-import orderRoutes from './routes/orders.routes.js';
-=======
 import adminRoutes from './routes/admin.routes.js';
-import orderRoutes from './routes/order.routes.js';
->>>>>>> Pedidos
+import orderRoutes from './routes/orders.routes.js';
 import {syncDatabase} from './models/index.js';
 
 const app = express();
@@ -38,10 +34,7 @@ app.use(express.json());
 // ── Rutas ──────────────────────────────────────────────────────────
 app.use('/api/products', productRoutes);
 app.use('/api/auth', authRoutes);
-<<<<<<< HEAD
-=======
 app.use('/api/admin', adminRoutes);
->>>>>>> Pedidos
 app.use('/api/orders', orderRoutes);
 
 // ── Swagger ────────────────────────────────────────────────────────
@@ -56,21 +49,13 @@ app.get('/', (req, res) => {
     });
 });
 
-<<<<<<< HEAD
-// â”€â”€ Iniciar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Iniciar ────────────────────────────────────────────────────────
 if (process.env.NODE_ENV !== 'test') {
     syncDatabase().then(() => {
         app.listen(PORT, () => {
             console.log(`🚀 Servidor en http://localhost:${PORT}`);
             console.log(`📄 Swagger en http://localhost:${PORT}/api-docs`);
         });
-=======
-// ── Iniciar ────────────────────────────────────────────────────────
-syncDatabase().then(() => {
-    app.listen(PORT, () => {
-        console.log(`🚀 Servidor en http://localhost:${PORT}`);
-        console.log(`📄 Swagger en http://localhost:${PORT}/api-docs`);
->>>>>>> Pedidos
     });
 }
 

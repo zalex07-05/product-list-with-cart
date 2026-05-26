@@ -25,16 +25,17 @@ export const createOrder = async (req, res) => {
 
     // Validar productos y precios contra la base de datos de productos (Microservicio de Productos)
     for (const item of items) {
-      const product = await Product.findOne({ where: { name: item.name } });
+      const itemName = item.name || item.product_name;
+      const product = await Product.findOne({ where: { name: itemName } });
       if (!product) {
         await transaction.rollback();
-        return res.status(404).json({ message: `El producto "${item.name}" no existe en el catálogo` });
+        return res.status(404).json({ message: `El producto "${itemName}" no existe en el catálogo` });
       }
 
       const itemQty = Number(item.quantity);
       if (isNaN(itemQty) || itemQty <= 0) {
         await transaction.rollback();
-        return res.status(400).json({ message: `Cantidad inválida para el producto "${item.name}"` });
+        return res.status(400).json({ message: `Cantidad inválida para el producto "${itemName}"` });
       }
 
       const itemSubtotal = product.price * itemQty;
