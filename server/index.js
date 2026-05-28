@@ -11,14 +11,15 @@ import orderRoutes from './routes/orders.routes.js';
 import {syncDatabase} from './models/index.js';
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 
 // ── CORS ───────────────────────────────────────────────────────────
-// Sin esto el navegador bloquea las peticiones desde localhost:5173
+// Sin esto el navegador bloquea las peticiones desde el frontend
 // porque considera que vienen de un "origen cruzado" (cross-origin).
-// Aquí le decimos explícitamente cuáles orígenes y métodos permitimos.
+// En desarrollo permite localhost:5173; en producción usa FRONTEND_URL.
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: FRONTEND_URL,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 }));
 
@@ -45,7 +46,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/', (req, res) => {
     res.json({
         message: '🍰 Desserts API funcionando',
-        docs: 'http://localhost:3000/api-docs',
+        docs: `${req.protocol}://${req.get('host')}/api-docs`,
     });
 });
 
@@ -53,8 +54,8 @@ app.get('/', (req, res) => {
 if (process.env.NODE_ENV !== 'test') {
     syncDatabase().then(() => {
         app.listen(PORT, () => {
-            console.log(`🚀 Servidor en http://localhost:${PORT}`);
-            console.log(`📄 Swagger en http://localhost:${PORT}/api-docs`);
+            console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
+            console.log(`📄 Swagger en /api-docs`);
         });
     });
 }

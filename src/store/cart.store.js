@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { API_URL } from '../config.js';
 
 export const useCartStore = create((set, get) => ({
   isClose: true,
@@ -16,7 +17,7 @@ export const useCartStore = create((set, get) => ({
   fetchProducts: async () => {
     set({ loading: true, error: null });
     try {
-      const res = await fetch('http://localhost:3000/api/products');
+      const res = await fetch(`${API_URL}/api/products`);
       if (!res.ok) throw new Error('Error al cargar productos');
       const data = await res.json();
 
@@ -51,7 +52,7 @@ export const useCartStore = create((set, get) => ({
       quantity: item.quantity
     }));
 
-    const res = await fetch('http://localhost:3000/api/orders', {
+    const res = await fetch(`${API_URL}/api/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:3000/api/products';
+import { API_URL } from '../config.js';
+const RESOURCE = `${API_URL}/api/products`;
 
 function getAuthHeaders() {
   const token = localStorage.getItem('token');
@@ -9,14 +10,14 @@ function getAuthHeaders() {
 
 export const productService = {
   async getProducts() {
-    const res = await fetch(`${API_URL}`);
+    const res = await fetch(`${RESOURCE}`);
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Error al obtener productos');
     return data;
   },
 
   async createProduct(productData) {
-    const res = await fetch(`${API_URL}`, {
+    const res = await fetch(`${RESOURCE}`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(productData),
@@ -27,7 +28,7 @@ export const productService = {
   },
 
   async updateProduct(id, productData) {
-    const res = await fetch(`${API_URL}/${id}`, {
+    const res = await fetch(`${RESOURCE}/${id}`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(productData),
@@ -38,7 +39,7 @@ export const productService = {
   },
 
   async deleteProduct(id) {
-    const res = await fetch(`${API_URL}/${id}`, {
+    const res = await fetch(`${RESOURCE}/${id}`, {
       method: 'DELETE',
       headers: getAuthHeaders(),
     });

@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:3000/api/orders';
+import { API_URL } from '../config.js';
+const RESOURCE = `${API_URL}/api/orders`;
 
 function getAuthHeaders() {
   const token = localStorage.getItem('token');
@@ -9,7 +10,7 @@ function getAuthHeaders() {
 
 export const orderService = {
   async createOrder(orderData) {
-    const res = await fetch(`${API_URL}`, {
+    const res = await fetch(`${RESOURCE}`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(orderData),

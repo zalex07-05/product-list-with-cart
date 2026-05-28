@@ -5,7 +5,7 @@ import { productService } from '../services/product.service';
 import { useCartStore } from '../store/cart.store';
 
 export const ProductManagement = () => {
-  const { user, logout } = useAuthStore();
+  const { user } = useAuthStore();
   const { fetchProducts } = useCartStore(); // Para actualizar el catálogo general tras cambios
   const navigate = useNavigate();
 

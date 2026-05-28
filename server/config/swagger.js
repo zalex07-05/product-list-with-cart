@@ -8,7 +8,7 @@ const options = {
             version: '1.0.0',
             description: 'API REST para gestión de productos, pedidos y pagos — PERN Stack',
         },
-        servers: [{url: 'http://localhost:3000'}],
+        servers: [{url: process.env.API_URL || 'http://localhost:3000'}],
         components: {
             securitySchemes: {
                 bearerAuth: {

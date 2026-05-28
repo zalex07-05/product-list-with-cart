@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useCartStore } from '../store/cart.store';
 import { useAuthStore } from '../store/auth.store';
+import { API_URL } from '../config';
 
 export const OrdersHistory = () => {
   const { isOrdersOpen, toggleOrders } = useCartStore();
@@ -21,7 +22,7 @@ export const OrdersHistory = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('http://localhost:3000/api/orders', {
+      const res = await fetch(`${API_URL}/api/orders`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
